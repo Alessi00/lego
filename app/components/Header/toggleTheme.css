@@ -5,7 +5,7 @@
 
 .moon {
   @media (--mobile-device) {
-    color: var(--color-blue-1);
+    color: var(--color-currentcolor);
   }
 }
 
@@ -16,7 +16,7 @@
 }
 
 .moon:hover {
-  color: var(--color-blue-1);
+  color: var(--color-black);
 }
 
 .sun:hover {
