@@ -345,21 +345,24 @@ export default class EventDetail extends Component<Props, State> {
       event.responsibleGroup && {
         key: 'Arrangør',
         value: (
-          <Link to={groupLink} className={styles.organizerLogo}>
+          <div className={styles.organizerLogo}>
+            asdfasdf
             {groupLink && (
               <Tooltip
                 key={event.responsibleGroup.id}
-                content={event.responsibleGroup.name}
+                content={event.responsibleGroup.contactEmail}
               >
-                <CircularPicture
-                  alt={event.responsibleGroup.name}
-                  src={groupLogoDict[event.responsibleGroup.name]}
-                  size={40}
-                />
+                <a href={`mailto:${event.responsibleGroup.contactEmail}`}>
+                  <CircularPicture
+                    alt={event.responsibleGroup.name}
+                    src={event.responsibleGroup.logo}
+                    size={40}
+                  />
+                </a>
               </Tooltip>
-            )}{' '}
-            {event.responsibleGroup.name}
-          </Link>
+            )}
+            <Link to={groupLink}>{event.responsibleGroup.name}</Link>
+          </div>
         ),
       },
       event?.createdBy
@@ -367,11 +370,6 @@ export default class EventDetail extends Component<Props, State> {
             key: 'Forfatter',
             value: (
               <span className={styles.organizerLogo}>
-                <ProfilePicture
-                  user={event.createdBy}
-                  size={40}
-                  alt={event.createdBy.firstName}
-                />
                 <Link to={`/users/${event.createdBy.username}`}>
                   {event.createdBy.fullName}
                 </Link>
