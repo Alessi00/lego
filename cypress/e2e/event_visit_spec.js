@@ -78,7 +78,7 @@ describe('View event', () => {
     cy.reload();
     cy.get(c('CommentForm') + ' [data-slate-editor="true"]')
       .last()
-      .wait(500)
+      .wait(1000)
       .click()
       .wait(100);
     cy.contains('button', 'Kommenter').should('be.disabled');
