@@ -418,7 +418,6 @@ export default class EventDetail extends Component<Props, State> {
                 </Button>
               )}
             </div>
-
             {event.isPriced && (
               <TextWithIcon
                 iconName="cash-outline"
@@ -466,21 +465,23 @@ export default class EventDetail extends Component<Props, State> {
                   />
                 )}
                 {loggedIn && (
-                  <RegistrationMeta
-                    useConsent={event.useConsent}
-                    hasOpened={moment(event.activationTime).isBefore(
-                      currentMoment
-                    )}
-                    photoConsents={event.photoConsents}
-                    eventSemester={getEventSemesterFromStartTime(
-                      event.startTime
-                    )}
-                    hasEnded={moment(event.endTime).isBefore(currentMoment)}
-                    registration={currentRegistration}
-                    isPriced={event.isPriced}
-                    registrationIndex={currentRegistrationIndex}
-                    hasSimpleWaitingList={hasSimpleWaitingList}
-                  />
+                  <>
+                    <RegistrationMeta
+                      useConsent={event.useConsent}
+                      hasOpened={moment(event.activationTime).isBefore(
+                        currentMoment
+                      )}
+                      photoConsents={event.photoConsents}
+                      eventSemester={getEventSemesterFromStartTime(
+                        event.startTime
+                      )}
+                      hasEnded={moment(event.endTime).isBefore(currentMoment)}
+                      registration={currentRegistration}
+                      isPriced={event.isPriced}
+                      registrationIndex={currentRegistrationIndex}
+                      hasSimpleWaitingList={hasSimpleWaitingList}
+                    />
+                  </>
                 )}
                 {event.useContactTracing && !currentRegistration && (
                   <div>
@@ -509,6 +510,7 @@ export default class EventDetail extends Component<Props, State> {
                       Du kan svare på undersøkelsene dine ved å trykke på
                       følgende linker:
                     </p>
+
                     <ul>
                       {event.unansweredSurveys.map((surveyId, i) => (
                         <li key={surveyId}>
@@ -533,6 +535,7 @@ export default class EventDetail extends Component<Props, State> {
                 )}
               </Flex>
             )}
+
             {deadlines.some((d) => d !== null) && (
               <>
                 <Line />

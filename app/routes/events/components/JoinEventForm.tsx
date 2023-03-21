@@ -33,6 +33,11 @@ import {
 import styles from './Event.css';
 import withCountdown from './JoinEventFormCountdownProvider';
 import PaymentRequestForm from './StripeElement';
+import Modal from 'app/components/Modal';
+import { Image } from 'app/components/Image';
+import integral from 'app/assets/integral.png';
+import ludvig from 'app/assets/midt.png';
+import confetti from 'canvas-confetti';
 
 type Event = Record<string, any>;
 export type Props = {
@@ -334,6 +339,14 @@ const JoinEventForm = (props: Props) => {
     }
   };
 
+  const [showModal, setShowModal] = useState(false);
+  const [integralAnswer, setIntegralAnswer] = useState('');
+  const [allowRegister, setAllowRegister] = useState(false);
+
+  function randomInRange(min: number, max: number): number {
+    return Math.random() * (max - min) + min;
+  }
+
   return (
     <>
       <h3 className={styles.subHeader}>Påmelding</h3>
@@ -423,6 +436,7 @@ const JoinEventForm = (props: Props) => {
                         </Button>
                       </Flex>
                     )}
+
                     {buttonOpen && !submitting && !registrationPending && (
                       <>
                         <Flex
@@ -431,16 +445,85 @@ const JoinEventForm = (props: Props) => {
                         >
                           <SubmitButton
                             disabled={disabledButton}
-                            onSubmit={submitWithType(
-                              handleSubmit,
-                              feedbackName,
-                              registrationType
-                            )}
+                            onSubmit={
+                              allowRegister
+                                ? () => {
+                                    confetti({
+                                      startVelocity: 30,
+                                      spread: 700,
+                                      ticks: 60,
+                                      zIndex: 0,
+                                      particleCount: 350,
+                                      origin: {
+                                        x: randomInRange(0.1, 0.3),
+                                        y: Math.random() - 0.2,
+                                      },
+                                    });
+                                    confetti({
+                                      startVelocity: 30,
+                                      spread: 700,
+                                      ticks: 60,
+                                      zIndex: 0,
+                                      particleCount: 350,
+                                      origin: {
+                                        x: randomInRange(0.7, 0.9),
+                                        y: Math.random() - 0.2,
+                                      },
+                                    });
+                                  }
+                                : () => setShowModal(true)
+                            }
                             type={registrationType}
                             title={title || joinTitle}
                             showPenaltyNotice={showPenaltyNotice}
                           />
                         </Flex>
+                        {showModal && (
+                          <Image
+                            style={{
+                              position: 'fixed',
+                              top: '0',
+                              left: '0',
+                              right: '0',
+                              bottom: '5',
+                            }}
+                            src={ludvig}
+                            alt="asdf"
+                          />
+                        )}
+
+                        <Modal
+                          show={showModal}
+                          children={
+                            <Flex column gap="10px">
+                              <Image src={integral} alt="asdf" />
+                              <h4>Lykke til :)</h4>
+                              <Flex gap="10px">
+                                <TextInput
+                                  type="text"
+                                  placeholder="Svar"
+                                  onChange={(e) =>
+                                    setIntegralAnswer(e.target.value)
+                                  }
+                                />
+                                <Button
+                                  onClick={
+                                    integralAnswer == '-2022'
+                                      ? () => {
+                                          setAllowRegister(true);
+                                          setShowModal(false);
+                                        }
+                                      : console.log('')
+                                  }
+                                >
+                                  Send
+                                </Button>
+                              </Flex>
+                              <div>{integralAnswer}</div>
+                            </Flex>
+                          }
+                          onHide={() => setShowModal(false)}
+                        />
                         {!registration && (
                           <SpotsLeft
                             activeCapacity={event.activeCapacity}
