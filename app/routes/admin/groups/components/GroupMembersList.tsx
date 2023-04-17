@@ -3,7 +3,6 @@ import qs from 'qs';
 import { useState } from 'react';
 import { Link } from 'react-router-dom';
 import Select from 'react-select';
-import type { AddMemberArgs } from 'app/actions/GroupActions';
 import Icon from 'app/components/Icon';
 import Flex from 'app/components/Layout/Flex';
 import { ConfirmModalWithParent } from 'app/components/Modal/ConfirmModal';
@@ -13,13 +12,14 @@ import type Membership from 'app/store/models/Membership';
 import type { CurrentUser } from 'app/store/models/User';
 import { ROLES, type RoleType } from 'app/utils/constants';
 import styles from './GroupMembersList.css';
+import type { Push } from 'connected-react-router';
 
 type Props = {
   fetching: boolean;
   hasMore: boolean;
   groupId: number;
   memberships: Membership[];
-  addMember: (arg0: AddMemberArgs) => Promise<any>;
+  editMembership: (membership: Membership, role: RoleType) => Promise<void>;
   removeMember: (membership: Membership) => Promise<void>;
   showDescendants: boolean;
   groupsById: Record<
@@ -35,7 +35,7 @@ type Props = {
     query: Record<string, any>;
     descendants: boolean;
   }) => Promise<any>;
-  push: (arg0: any) => void;
+  push: Push;
   pathname: string;
   search: string;
   query: Record<string, any>;
@@ -46,7 +46,7 @@ type Props = {
 const GroupMembersList = ({
   memberships,
   groupId,
-  addMember,
+  editMembership,
   removeMember,
   showDescendants,
   fetch,
@@ -98,13 +98,7 @@ const GroupMembersList = ({
               ...prev,
               [id]: false,
             }));
-            await removeMember(membership).then(() =>
-              addMember({
-                userId: membership.user.id,
-                groupId: membership.abakusGroup,
-                role: value.value,
-              })
-            );
+            await editMembership(membership, value.value);
           }}
         />
       );

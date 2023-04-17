@@ -33,6 +33,24 @@ export function addMember({
     },
   });
 }
+export function editMembership(
+  membership: MembershipType,
+  role: RoleType
+): Thunk<Promise<void>> {
+  return callAPI({
+    types: Membership.UPDATE,
+    endpoint: `/groups/${membership.abakusGroup}/memberships/${membership.id}/`,
+    method: 'PATCH',
+    body: {
+      membership: membership,
+      role: role,
+    },
+    schema: membershipSchema,
+    meta: {
+      errorMessage: 'Endring av medlemskap feilet',
+    },
+  });
+}
 export function removeMember(membership: MembershipType): Thunk<any> {
   return callAPI({
     types: Membership.REMOVE,

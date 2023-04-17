@@ -6,6 +6,7 @@ import {
   fetchMemberships,
   fetchMembershipsPagination,
   addMember,
+  editMembership,
   removeMember,
 } from 'app/actions/GroupActions';
 import type { AddMemberArgs } from 'app/actions/GroupActions';
@@ -15,9 +16,11 @@ import { selectMembershipsForGroup } from 'app/reducers/memberships';
 import { selectPaginationNext } from 'app/reducers/selectors';
 import type Membership from 'app/store/models/Membership';
 import type { CurrentUser } from 'app/store/models/User';
+import type { RoleType } from 'app/utils/constants';
 import withPreparedDispatch from 'app/utils/withPreparedDispatch';
 import AddGroupMember from './AddGroupMember';
 import GroupMembersList from './GroupMembersList';
+import type { Push } from 'connected-react-router';
 
 type Props = {
   groupId: number;
@@ -39,8 +42,9 @@ type Props = {
   memberships: Membership[];
   showDescendants: boolean;
   addMember: (arg0: AddMemberArgs) => Promise<any>;
+  editMembership: (membership: Membership, role: RoleType) => Promise<void>;
   removeMember: (membership: Membership) => Promise<void>;
-  push: (arg0: any) => void;
+  push: Push;
   pathname: string;
   search: string;
   query: Record<string, any>;
@@ -49,6 +53,7 @@ type Props = {
 };
 export const GroupMembers = ({
   addMember,
+  editMembership,
   removeMember,
   groupId,
   memberships,
@@ -87,7 +92,7 @@ export const GroupMembers = ({
         fetch={fetch}
         fetching={fetching}
         showDescendants={showDescendants}
-        addMember={addMember}
+        editMembership={editMembership}
         removeMember={removeMember}
         memberships={memberships}
         currentUser={currentUser}
@@ -146,6 +151,7 @@ function mapStateToProps(state, props) {
 
 const mapDispatchToProps = {
   addMember,
+  editMembership,
   removeMember,
   fetch: fetchMembershipsPagination,
   push,
