@@ -3,7 +3,7 @@ import { normalize } from 'normalizr';
 import { logout } from 'app/actions/UserActions';
 import { selectIsLoggedIn } from 'app/reducers/auth';
 import { selectPaginationNext } from 'app/reducers/selectors';
-import type { AsyncActionType, Thunk } from 'app/types';
+import type { Action, AsyncActionType, PromiseAction, Thunk } from 'app/types';
 import createQueryString from 'app/utils/createQueryString';
 import type {
   HttpRequestOptions,
@@ -69,7 +69,7 @@ type CallAPIOptions = {
   };
 };
 
-export default function callAPI({
+export default function callAPI<T>({
   types,
   method = 'GET',
   headers = {},
@@ -85,8 +85,8 @@ export default function callAPI({
   enableOptimistic = false,
   requiresAuthentication = true,
   timeout,
-}: CallAPIOptions): Thunk<Promise<any>> {
-  return (dispatch, getState) => {
+}: CallAPIOptions): Thunk<Promise<Action<T>>> {
+  return async (dispatch, getState) => {
     const requestOptions: HttpRequestOptions = {
       method,
       body,
@@ -160,12 +160,9 @@ export default function callAPI({
         query: query || {},
         schema,
       })(state);
+
     const cursor =
-      pagination &&
-      pagination.fetchNext &&
-      paginationForRequest &&
-      paginationForRequest.pagination &&
-      paginationForRequest.pagination.next
+      pagination?.fetchNext && paginationForRequest?.pagination?.next
         ? paginationForRequest.pagination.next.cursor
         : '';
 
@@ -180,8 +177,20 @@ export default function callAPI({
       urlFor(`${endpoint}${qs}`),
       requestOptions
     );
-    return dispatch({
+
+    const action: PromiseAction<T> = {
       types,
+      promise: promise
+        .then((response) => normalizeJsonResponse(response))
+        .catch((error) => {
+          const handleErrorAction = handleError(
+            error,
+            propagateError,
+            endpoint,
+            loggedIn
+          );
+          dispatch(handleErrorAction);
+        }),
       payload: optimisticPayload,
       meta: {
         queryString: qsWithoutPagination,
@@ -196,11 +205,19 @@ export default function callAPI({
         body,
         schemaKey,
       },
-      promise: promise
-        .then((response) => normalizeJsonResponse(response))
-        .catch((error) =>
-          dispatch(handleError(error, propagateError, endpoint, loggedIn))
-        ),
+    };
+
+    return action.promise.then((payload) => {
+      const resolvedAction: Action<T> = {
+        type: types.SUCCESS,
+        payload,
+        meta: action.meta,
+        success: true,
+      };
+
+      dispatch(resolvedAction);
+
+      return resolvedAction;
     });
   };
 }

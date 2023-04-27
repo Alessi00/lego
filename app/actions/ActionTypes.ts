@@ -36,6 +36,7 @@ export const Event = {
   FOLLOW: generateStatuses('Event.FOLLOW') as AAT,
   UNFOLLOW: generateStatuses('Event.UNFOLLOW') as AAT,
   IS_USER_FOLLOWING: generateStatuses('Event.IS_USER_FOLLOWING') as AAT,
+  FETCH_ANALYTICS: generateStatuses('Event.FETCH_ANALYTICS') as AAT,
 };
 
 /**

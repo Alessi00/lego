@@ -62,18 +62,18 @@ export type Token = DecodedToken & {
   encodedToken: EncodedToken;
 };
 
-export type Action = {
+export type Action<T = any> = {
   type: string;
-  payload?: any;
+  payload?: T;
   meta?: any;
   error?: boolean;
-  success?: boolean; // 65 WAT M8 https://github.com/acdlite/flux-standard-action
+  success?: boolean;
 };
 export type PromiseAction<T> = {
   types: AsyncActionType;
   promise: Promise<T>;
   meta?: any;
-  payload?: any;
+  payload?: T;
 };
 export type GetState = () => RootState;
 export type GetCookie = (arg0: string) => EncodedToken | null | undefined;

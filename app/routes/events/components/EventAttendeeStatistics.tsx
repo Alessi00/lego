@@ -12,7 +12,10 @@ import {
   XAxis,
   YAxis,
 } from 'recharts';
-import { fetchAnalytics } from 'app/actions/EventActions';
+import {
+  type AnalyticsResponse,
+  fetchAnalytics,
+} from 'app/actions/EventActions';
 import Card from 'app/components/Card';
 import ChartLabel from 'app/components/Chart/ChartLabel';
 import DistributionPieChart from 'app/components/Chart/PieChart';
@@ -22,6 +25,7 @@ import type { Dateish } from 'app/models';
 import { useAppDispatch } from 'app/store/hooks';
 import type { ID } from 'app/store/models';
 import type { DetailedRegistration } from 'app/store/models/Registration';
+import type { Action } from 'app/types';
 import styles from './EventAttendeeStatistics.css';
 
 interface RegistrationDateDataPoint {
@@ -230,14 +234,14 @@ const initialMetricValue = {
   visitDuration: { title: 'Besøkstid', value: 0 },
 };
 
-const calculateMetrics = (data) => {
+const calculateMetrics = (data: AnalyticsResponse[]) => {
   // Copy initialMetricValue to avoid mutating it
   const initialValue = JSON.parse(JSON.stringify(initialMetricValue));
 
   return data.reduce((acc, item) => {
     acc.visitors.value += item.visitors;
     acc.pageviews.value += item.pageviews;
-    acc.visitDuration.value += item.visitDuration;
+    acc.visitDuration.value += Number(item.visitDuration);
 
     return acc;
   }, initialValue);
@@ -249,16 +253,20 @@ const Analytics = ({ eventId }: { eventId: ID }) => {
     pageviews: { title: string; value: number };
     visitDuration: { title: string; value: number };
   }>(initialMetricValue);
-  const [data, setData] = useState<{ date: string; visitors: number }[]>([]);
+  const [data, setData] = useState<AnalyticsResponse[]>([]);
 
   const dispatch = useAppDispatch();
 
   useEffect(() => {
     eventId &&
-      dispatch(fetchAnalytics(eventId)).then((res) => {
-        setData(res.payload);
-        setMetrics(calculateMetrics(res.payload));
-      });
+      dispatch(fetchAnalytics(eventId)).then(
+        (res: Action<AnalyticsResponse[]>) => {
+          if (!res.payload) return;
+
+          setData(res.payload);
+          setMetrics(calculateMetrics(res.payload));
+        }
+      );
   }, [eventId, dispatch]);
 
   return (

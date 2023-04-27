@@ -10,6 +10,8 @@ import promiseMiddleware from 'app/store/middleware/promiseMiddleware';
 import createSentryMiddleware from 'app/store/middleware/sentryMiddleware';
 import type { GetCookie } from 'app/types';
 import type { History } from 'history';
+import type { AnyAction } from 'redux';
+import type { ThunkDispatch } from 'redux-thunk';
 
 export const history: History = __CLIENT__
   ? createBrowserHistory()
@@ -72,4 +74,8 @@ const createStore = (
 export default createStore;
 
 export type Store = ReturnType<typeof createStore>;
-export type AppDispatch = Store['dispatch'];
+export type AppDispatch = ThunkDispatch<
+  RootState,
+  { getCookie: GetCookie },
+  AnyAction
+>;

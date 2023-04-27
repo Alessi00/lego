@@ -419,9 +419,20 @@ export function isUserFollowing(eventId: number): Thunk<any> {
     },
   });
 }
-export function fetchAnalytics(eventId: ID): Thunk<Promise<Action>> {
+
+export type AnalyticsResponse = {
+  date: string;
+  visitors: number;
+  pageviews: number;
+  visitDuration: number | null;
+  bounceRate: number | null;
+};
+
+export function fetchAnalytics(
+  eventId: ID
+): Thunk<Promise<Action<AnalyticsResponse[]>>> {
   return callAPI({
-    types: Event.FETCH,
+    types: Event.FETCH_ANALYTICS,
     endpoint: `/events/${String(eventId)}/statistics/`,
     method: 'GET',
     meta: {
