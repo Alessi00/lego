@@ -1,7 +1,7 @@
 import { Icon } from '@webkom/lego-bricks';
 import cx from 'classnames';
 import styles from './InfoBubble.css';
-import type { ReactNode } from 'react';
+import type { HTMLAttributes, ReactNode } from 'react';
 
 type Props = {
   /** Icon name */
@@ -21,7 +21,7 @@ type Props = {
 
   /** Custom class name */
   className?: string;
-};
+} & HTMLAttributes<HTMLDivElement>;
 
 const httpCheck = (link) =>
   link.startsWith('http://') || link.startsWith('https://')
@@ -72,10 +72,7 @@ function InfoBubble({
   const dataClass = small ? styles.smallData : styles.data;
   const metaClass = small ? styles.smallMeta : styles.meta;
   return (
-    <div
-      className={cx(styles.infoBubble, className)}
-      {...(props as Record<string, any>)}
-    >
+    <div className={cx(styles.infoBubble, className)} {...props}>
       {iconComponent(icon, bubbleClass, iconClass, link)}
       {dataComponent(dataClass, data, link)}
       {meta && dataComponent(metaClass, meta)}

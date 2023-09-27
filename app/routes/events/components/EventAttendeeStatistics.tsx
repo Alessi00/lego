@@ -50,10 +50,7 @@ const PieChartWithLabel = ({
     <Card>
       <Card.Header>{label}</Card.Header>
       <Flex alignItems="center" wrap column>
-        <DistributionPieChart
-          dataKey="count"
-          distributionData={distributionData}
-        />
+        <DistributionPieChart distributionData={distributionData} />
         <ChartLabel distributionData={distributionData} />
       </Flex>
     </Card>

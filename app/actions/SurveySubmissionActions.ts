@@ -1,9 +1,10 @@
 import callAPI from 'app/actions/callAPI';
 import { surveySubmissionSchema } from 'app/reducers';
 import { SurveySubmission } from './ActionTypes';
+import type { ID } from 'app/store/models';
 import type { Thunk } from 'app/types';
 
-export function fetchSubmissions(surveyId: number): Thunk<any> {
+export function fetchSubmissions(surveyId: ID): Thunk<any> {
   return callAPI({
     types: SurveySubmission.FETCH_ALL,
     endpoint: `/surveys/${surveyId}/submissions/`,
@@ -44,7 +45,7 @@ export function addSubmission({
     meta: {
       errorMessage: 'Legg til svar feilet',
       successMessage: 'Undersøkelse besvart!',
-      surveyId,
+      surveyId: Number(surveyId),
     },
   });
 }

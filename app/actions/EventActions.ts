@@ -10,10 +10,13 @@ import createQueryString from 'app/utils/createQueryString';
 import { Event } from './ActionTypes';
 import type { EventRegistrationPresence } from 'app/models';
 import type { ID } from 'app/store/models';
+import type { CallAPIResult, EntityType } from 'app/store/models/entities';
 import type { Thunk, Action } from 'app/types';
 
 export const waitinglistPoolId = -1;
-export function fetchEvent(eventId: string): Thunk<any> {
+export function fetchEvent(
+  eventId: string
+): Thunk<Promise<CallAPIResult<EntityType.Events>>> {
   return callAPI({
     types: Event.FETCH,
     endpoint: `/events/${eventId}/`,

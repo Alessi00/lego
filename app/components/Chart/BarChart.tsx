@@ -3,13 +3,11 @@ import { CHART_COLORS } from 'app/components/Chart/utils';
 import type { DistributionDataPoint } from 'app/components/Chart/utils';
 
 const DistributionBarChart = ({
-  dataKey,
   chartColors = CHART_COLORS,
   distributionData,
 }: {
   distributionData: DistributionDataPoint[];
   chartColors: string[];
-  dataKey: string;
 }) => {
   return (
     <BarChart
@@ -27,7 +25,7 @@ const DistributionBarChart = ({
       <YAxis />
       <CartesianGrid strokeDasharray="3 3" />
       <Bar
-        dataKey={dataKey}
+        dataKey={'count'}
         label={{ position: 'top' }}
         background={{ fill: 'var(--additive-background)' }}
         isAnimationActive={false}

@@ -9,7 +9,6 @@ import promiseMiddleware from 'app/store/middleware/promiseMiddleware';
 import createSentryMiddleware from 'app/store/middleware/sentryMiddleware';
 import type { RootState } from 'app/store/createRootReducer';
 import type { GetCookie } from 'app/types';
-import type { History } from 'history';
 
 const createStore = (
   initialState: RootState | Record<string, never> = {},
@@ -20,7 +19,7 @@ const createStore = (
     Sentry?: any;
     getCookie?: GetCookie;
   } = {}
-): StoreWithHistory => {
+) => {
   const { createReduxHistory, routerMiddleware } = createReduxHistoryContext({
     history: __CLIENT__ ? createBrowserHistory() : createMemoryHistory(),
     reduxTravelling: __DEV__,
@@ -74,10 +73,6 @@ const createStore = (
 
 export default createStore;
 
-export type Store = ReturnType<typeof configureStore>;
+export type StoreWithHistory = ReturnType<typeof createStore>;
+export type Store = StoreWithHistory['store'];
 export type AppDispatch = Store['dispatch'];
-
-export type StoreWithHistory = {
-  store: Store;
-  connectedHistory: History & { listenObject: boolean };
-};
