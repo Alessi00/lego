@@ -94,7 +94,6 @@ const mapStateToProps = (state, props) => {
     //feedItems,
     showSettings,
     isCurrentUser,
-    loading: state.events.fetching,
     penalties,
     canDeletePenalties,
     groups,

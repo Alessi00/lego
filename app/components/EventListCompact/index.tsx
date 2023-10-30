@@ -17,10 +17,17 @@ const EventListCompact = ({
   eventStyle = 'default',
   loading,
 }: Props) => {
-  if (loading) {
+  if (loading && (!events || events.length === 0)) {
     return <LoadingIndicator loading margin="20px auto" />;
   }
-  return events && events.length ? (
+
+  if (!events || events.length === 0) {
+    return (
+      <EmptyState className="secondaryFontColor">{noEventsMessage}</EmptyState>
+    );
+  }
+
+  return (
     <Flex column wrap>
       {events.map((event) => (
         <EventItem
@@ -31,8 +38,6 @@ const EventListCompact = ({
         />
       ))}
     </Flex>
-  ) : (
-    <EmptyState className="secondaryFontColor">{noEventsMessage}</EmptyState>
   );
 };
 export default EventListCompact;

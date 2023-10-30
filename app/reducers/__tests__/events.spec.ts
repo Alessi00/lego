@@ -12,6 +12,8 @@ describe('reducers', () => {
     pagination: {},
     items: [1],
     fetching: false,
+    fetchingPrevious: false,
+    fetchingUpcoming: false,
     byId: {
       1: {
         id: 1,
@@ -42,6 +44,8 @@ describe('reducers', () => {
         pagination: {},
         items: [1, 2],
         fetching: false,
+        fetchingPrevious: false,
+        fetchingUpcoming: false,
         byId: {
           1: {
             id: 1,
@@ -77,6 +81,8 @@ describe('reducers', () => {
         pagination: {},
         items: [1, 2],
         fetching: false,
+        fetchingPrevious: false,
+        fetchingUpcoming: false,
         byId: {
           1: {
             id: 1,
@@ -106,6 +112,8 @@ describe('reducers', () => {
         pagination: {},
         items: [1],
         fetching: false,
+        fetchingPrevious: false,
+        fetchingUpcoming: false,
         byId: {
           1: {
             id: 1,
@@ -124,6 +132,8 @@ describe('reducers', () => {
         pagination: {},
         items: [],
         fetching: false,
+        fetchingPrevious: false,
+        fetchingUpcoming: false,
         byId: {
           1: {
             id: 1,
@@ -147,6 +157,8 @@ describe('reducers', () => {
         pagination: {},
         items: [1],
         fetching: false,
+        fetchingPrevious: false,
+        fetchingUpcoming: false,
         byId: {
           1: {
             id: 1,
@@ -169,6 +181,8 @@ describe('reducers', () => {
         pagination: {},
         items: [1],
         fetching: false,
+        fetchingPrevious: false,
+        fetchingUpcoming: false,
         byId: {
           1: {
             id: 1,
@@ -194,6 +208,8 @@ describe('reducers', () => {
         pagination: {},
         items: [1],
         fetching: false,
+        fetchingPrevious: false,
+        fetchingUpcoming: false,
         byId: {
           1: {
             id: 1,
@@ -218,6 +234,8 @@ describe('reducers', () => {
         pagination: {},
         items: [1],
         fetching: false,
+        fetchingPrevious: false,
+        fetchingUpcoming: false,
         byId: {
           1: {
             id: 1,
@@ -236,6 +254,8 @@ describe('reducers', () => {
         pagination: {},
         items: [1],
         fetching: false,
+        fetchingPrevious: false,
+        fetchingUpcoming: false,
         byId: {
           1: {
             id: 1,
@@ -261,6 +281,8 @@ describe('reducers', () => {
         pagination: {},
         items: [1],
         fetching: false,
+        fetchingPrevious: false,
+        fetchingUpcoming: false,
         byId: {
           1: {
             id: 1,
@@ -286,6 +308,8 @@ describe('reducers', () => {
         pagination: {},
         items: [1],
         fetching: false,
+        fetchingPrevious: false,
+        fetchingUpcoming: false,
         byId: {
           1: {
             id: 1,
@@ -311,6 +335,8 @@ describe('reducers', () => {
         pagination: {},
         items: [1],
         fetching: false,
+        fetchingPrevious: false,
+        fetchingUpcoming: false,
         byId: {
           1: {
             id: 1,
@@ -342,6 +368,8 @@ describe('reducers', () => {
         pagination: {},
         items: [1],
         fetching: false,
+        fetchingPrevious: false,
+        fetchingUpcoming: false,
         byId: {
           1: {
             id: 1,
@@ -360,6 +388,8 @@ describe('reducers', () => {
         pagination: {},
         items: [1],
         fetching: false,
+        fetchingPrevious: false,
+        fetchingUpcoming: false,
         byId: {
           1: {
             id: 1,
@@ -391,6 +421,8 @@ describe('reducers', () => {
         pagination: {},
         items: [1],
         fetching: false,
+        fetchingPrevious: false,
+        fetchingUpcoming: false,
         byId: {
           1: {
             id: 1,
@@ -409,6 +441,8 @@ describe('reducers', () => {
         pagination: {},
         items: [1],
         fetching: false,
+        fetchingPrevious: false,
+        fetchingUpcoming: false,
         byId: {
           1: {
             id: 1,
@@ -441,6 +475,8 @@ describe('reducers', () => {
         pagination: {},
         items: [1],
         fetching: false,
+        fetchingPrevious: false,
+        fetchingUpcoming: false,
         byId: {
           1: {
             id: 1,
@@ -483,6 +519,8 @@ describe('reducers', () => {
         pagination: {},
         items: [1],
         fetching: false,
+        fetchingPrevious: false,
+        fetchingUpcoming: false,
         byId: {
           1: {
             id: 1,
@@ -498,6 +536,8 @@ describe('reducers', () => {
         pagination: {},
         items: [1],
         fetching: false,
+        fetchingPrevious: false,
+        fetchingUpcoming: false,
         byId: {
           1: {
             id: 1,
@@ -517,6 +557,8 @@ describe('reducers', () => {
         pagination: {},
         items: [1],
         fetching: false,
+        fetchingPrevious: false,
+        fetchingUpcoming: false,
         byId: {
           1: {
             id: 1,
@@ -542,6 +584,8 @@ describe('reducers', () => {
         pagination: {},
         items: [1],
         fetching: false,
+        fetchingPrevious: false,
+        fetchingUpcoming: false,
         byId: {
           1: {
             id: 1,

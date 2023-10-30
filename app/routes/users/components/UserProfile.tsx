@@ -27,6 +27,7 @@ import type {
   UserMembership,
 } from 'app/models';
 import { resolveGroupLink } from 'app/reducers/groups';
+import { useAppSelector } from 'app/store/hooks';
 import type { CurrentUser } from 'app/store/models/User';
 //import Feed from 'app/components/Feed';
 import GroupChange from './GroupChange';
@@ -76,7 +77,6 @@ type Props = {
   //feed: Object,
   isCurrentUser: boolean;
   loggedIn: boolean;
-  loading: boolean;
   previousEvents: Array<Event>;
   upcomingEvents: Array<Event>;
   addPenalty: (arg0: AddPenalty) => void;
@@ -189,6 +189,13 @@ type PermissionTree = { [key: number]: PermissionTreeNode };
 const UserProfile = (props: Props) => {
   const [showAbaId, setShowAbaId] = useState(false);
 
+  const fetchingUpcoming = useAppSelector(
+    (state) => state.events.fetchingUpcoming
+  );
+  const fetchingPrevious = useAppSelector(
+    (state) => state.events.fetchingPrevious
+  );
+
   const sumPenalties = () => {
     return sumBy(props.penalties, 'weight');
   };
@@ -231,7 +238,6 @@ const UserProfile = (props: Props) => {
     showSettings,
     //feedItems,
     //feed,
-    loading,
     previousEvents,
     upcomingEvents,
     deletePenalty,
@@ -725,26 +731,30 @@ const UserProfile = (props: Props) => {
                 events={orderBy(upcomingEvents, 'startTime')}
                 noEventsMessage="Du har ingen kommende arrangementer"
                 eventStyle="compact"
-                loading={loading}
+                loading={fetchingUpcoming}
               />
               <h3>
                 Dine tidligere arrangementer (
-                {previousEvents === undefined ? 0 : previousEvents.length})
+                {!fetchingPrevious
+                  ? previousEvents === undefined
+                    ? 0
+                    : previousEvents.length
+                  : '...'}
+                )
               </h3>
               <EventListCompact
                 events={
-                  previousEvents === undefined
-                    ? []
-                    : orderBy(
-                        previousEvents
-                          .filter((e) => e.userReg.pool !== null)
-                          .filter((e) => e.userReg.presence !== 'NOT_PRESENT'),
-                        'startTime'
-                      ).reverse()
+                  previousEvents &&
+                  orderBy(
+                    previousEvents
+                      .filter((e) => e.userReg.pool !== null)
+                      .filter((e) => e.userReg.presence !== 'NOT_PRESENT'),
+                    'startTime'
+                  ).reverse()
                 }
                 noEventsMessage="Du har ingen tidligere arrangementer"
                 eventStyle="extra-compact"
-                loading={loading}
+                loading={fetchingPrevious}
               />
             </div>
           )}
