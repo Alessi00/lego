@@ -29,14 +29,13 @@ import { statusesText } from 'app/reducers/meetingInvitations';
 import { MeetingInvitationStatus } from 'app/store/models/MeetingInvitation';
 import urlifyString from 'app/utils/urlifyString';
 import styles from './MeetingDetail.css';
-import type { Dateish, ID } from 'app/models';
+import type { Dateish } from 'app/models';
 import type { MeetingInvitationWithUser } from 'app/reducers/meetingInvitations';
 import type Comment from 'app/store/models/Comment';
 import type Emoji from 'app/store/models/Emoji';
 import type { DetailedMeeting } from 'app/store/models/Meeting';
 import type { ReactionsGrouped } from 'app/store/models/Reaction';
 import type { CurrentUser, PublicUser } from 'app/store/models/User';
-import type { ContentTarget } from 'app/store/utils/contentTarget';
 
 type Props = {
   meeting: DetailedMeeting;
@@ -53,11 +52,8 @@ type Props = {
   currentUserInvitation: MeetingInvitationWithUser;
   loggedIn: boolean;
   comments: Comment[];
-  deleteComment: (id: ID, contentTarget: ContentTarget) => Promise<void>;
   emojis: Emoji[];
   reactionsGrouped: ReactionsGrouped[];
-  fetchEmojis: () => Promise<void>;
-  fetchingEmojis: boolean;
 };
 
 const UserLink = ({ user }: { user: PublicUser }) =>
@@ -75,10 +71,7 @@ const MeetingDetails = ({
   comments,
   loggedIn,
   currentUserInvitation,
-  deleteComment,
   emojis,
-  fetchEmojis,
-  fetchingEmojis,
   setInvitationStatus,
   meetingInvitations,
 }: Props) => {
@@ -238,8 +231,6 @@ const MeetingDetails = ({
               <div className={styles.meetingReactions}>
                 <LegoReactions
                   emojis={emojis}
-                  fetchEmojis={fetchEmojis}
-                  fetchingEmojis={fetchingEmojis}
                   parentEntity={meeting}
                   loggedIn={loggedIn}
                 />
@@ -249,7 +240,6 @@ const MeetingDetails = ({
                 contentTarget={meeting.contentTarget}
                 loggedIn={loggedIn}
                 comments={comments}
-                deleteComment={deleteComment}
                 contentAuthors={meeting.createdBy}
               />
             </>
